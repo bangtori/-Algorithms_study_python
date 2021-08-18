@@ -11,15 +11,20 @@ for i in range(t) :
   if x == "[]" :
     x = []
   else :
-    x = deque(map(int, x[1:-1].split(",")))
+    x = deque(x[1:-1].split(","))
+
   error = False
+  count = 0
+  direction = True #True면 popleft / False면 pop
   for j in range(len(command)) :
     if command[j] == "R" : 
-      x.reverse()
+      direction = not direction
+      count +=1
     elif command[j] == "D" :
       if not x :
         error = True
         break
       else :
-        x.popleft()
-  print("error" if error else list(x)) 
+        x.popleft() if direction else x.pop()
+  if count % 2 != 0 : x.reverse()
+  print("error" if error else "[" + ",".join(x) + "]") 
